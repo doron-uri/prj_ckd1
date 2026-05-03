@@ -12,20 +12,88 @@
       background: #f0f2f5;
       color: #1a1a2e;
       min-height: 100vh;
+    }
+
+    /* ── Auth view ── */
+    #auth-view {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
       padding: 2rem 1rem;
     }
 
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
+    .auth-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
     }
 
-    h1 {
-      font-size: 1.75rem;
+    .auth-card h1 {
+      font-size: 1.6rem;
       font-weight: 700;
+      text-align: center;
       margin-bottom: 1.5rem;
-      color: #1a1a2e;
     }
+
+    .auth-tabs {
+      display: flex;
+      border-bottom: 2px solid #eee;
+      margin-bottom: 1.5rem;
+    }
+
+    .auth-tabs button {
+      flex: 1;
+      background: none;
+      border: none;
+      padding: 0.6rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #aaa;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .auth-tabs button.active { color: #4f6ef7; border-bottom-color: #4f6ef7; }
+
+    /* ── App view ── */
+    #app-view { display: none; padding: 2rem 1rem; }
+
+    .app-header {
+      max-width: 680px;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .app-header h1 { font-size: 1.75rem; font-weight: 700; }
+
+    .user-info { display: flex; align-items: center; gap: 0.75rem; }
+
+    #user-email { font-size: 0.85rem; color: #888; }
+
+    .signout-btn {
+      padding: 0.4rem 0.9rem;
+      border: 1.5px solid #dde1e7;
+      border-radius: 8px;
+      background: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #555;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .signout-btn:hover { border-color: #d64045; color: #d64045; }
+
+    /* ── Shared ── */
+    .container { max-width: 680px; margin: 0 auto; }
 
     .card {
       background: #fff;
@@ -35,35 +103,59 @@
       margin-bottom: 1.5rem;
     }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+    .field { margin-bottom: 1rem; }
 
     label {
-      font-size: 0.85rem;
+      display: block;
+      font-size: 0.82rem;
       font-weight: 600;
       color: #555;
-      margin-bottom: 0.2rem;
-      display: block;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.03em;
     }
 
-    input[type="text"], input[type="url"] {
+    input {
       width: 100%;
       padding: 0.6rem 0.85rem;
       border: 1.5px solid #dde1e7;
       border-radius: 8px;
       font-size: 0.95rem;
-      transition: border-color 0.15s;
+      font-family: inherit;
+      background: #fafafa;
       outline: none;
+      transition: border-color 0.15s, background 0.15s;
     }
 
-    input:focus {
-      border-color: #4f6ef7;
+    input:focus { border-color: #4f6ef7; background: #fff; }
+
+    .btn-primary {
+      width: 100%;
+      padding: 0.7rem;
+      background: #4f6ef7;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.25rem;
+      transition: background 0.15s;
     }
 
-    button[type="submit"] {
+    .btn-primary:hover { background: #3a57e8; }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .error-msg {
+      color: #d64045;
+      font-size: 0.82rem;
+      min-height: 1.1rem;
+      margin-top: 0.4rem;
+    }
+
+    /* ── Add form ── */
+    #add-form { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    #add-form button[type="submit"] {
       padding: 0.65rem 1.25rem;
       background: #4f6ef7;
       color: #fff;
@@ -76,115 +168,10 @@
       transition: background 0.15s;
     }
 
-    button[type="submit"]:hover { background: #3a57e8; }
+    #add-form button[type="submit"]:hover { background: #3a57e8; }
 
-    #error-msg {
-      color: #d64045;
-      font-size: 0.85rem;
-      min-height: 1.1rem;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
-    }
-
-    .section-header h2 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #555;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    #count {
-      font-size: 0.8rem;
-      color: #999;
-    }
-
-    #bookmark-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    #bookmark-list li {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 1rem;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-      transition: box-shadow 0.15s;
-    }
-
-    #bookmark-list li:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-
-    .favicon {
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-      border-radius: 4px;
-      background: #eee;
-    }
-
-    .bookmark-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .bookmark-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .bookmark-title a {
-      color: #1a1a2e;
-      text-decoration: none;
-    }
-
-    .bookmark-title a:hover { color: #4f6ef7; }
-
-    .bookmark-url {
-      font-size: 0.78rem;
-      color: #999;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .delete-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #ccc;
-      font-size: 1.1rem;
-      line-height: 1;
-      padding: 0.2rem;
-      flex-shrink: 0;
-      transition: color 0.15s;
-    }
-
-    .delete-btn:hover { color: #d64045; }
-
-    #empty-state {
-      text-align: center;
-      color: #bbb;
-      padding: 2rem 0;
-      font-size: 0.95rem;
-    }
-
-    .search-wrapper {
-      position: relative;
-      margin-bottom: 1rem;
-    }
+    /* ── Search ── */
+    .search-wrapper { position: relative; margin-bottom: 1rem; }
 
     .search-wrapper svg {
       position: absolute;
@@ -209,166 +196,409 @@
 
     #search-input:focus { border-color: #4f6ef7; }
 
-    mark {
-      background: #fff0a0;
-      color: inherit;
-      border-radius: 2px;
-      padding: 0 1px;
+    /* ── List ── */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
     }
+
+    .section-header h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    #count { font-size: 0.8rem; color: #999; }
+
+    #bookmark-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    #bookmark-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: box-shadow 0.15s;
+    }
+
+    #bookmark-list li:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+    .favicon { width: 20px; height: 20px; flex-shrink: 0; border-radius: 4px; background: #eee; }
+
+    .bookmark-info { flex: 1; min-width: 0; }
+
+    .bookmark-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .bookmark-title a { color: #1a1a2e; text-decoration: none; }
+    .bookmark-title a:hover { color: #4f6ef7; }
+
+    .bookmark-url {
+      font-size: 0.78rem;
+      color: #999;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #ccc;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0.2rem;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+
+    .delete-btn:hover { color: #d64045; }
+
+    #empty-state { text-align: center; color: #bbb; padding: 2rem 0; font-size: 0.95rem; }
+
+    mark { background: #fff0a0; color: inherit; border-radius: 2px; padding: 0 1px; }
+
+    /* ── Spinner ── */
+    .spinner { display: flex; justify-content: center; padding: 2rem; }
+
+    .spinner::after {
+      content: '';
+      width: 28px;
+      height: 28px;
+      border: 3px solid #eee;
+      border-top-color: #4f6ef7;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Bookmarks</h1>
 
-    <div class="card">
-      <form id="bookmark-form">
-        <div>
-          <label for="url-input">URL</label>
-          <input type="url" id="url-input" placeholder="https://example.com" required>
+  <!-- ── Auth View ── -->
+  <div id="auth-view">
+    <div class="auth-card">
+      <h1>Bookmarks</h1>
+
+      <div class="auth-tabs">
+        <button id="tab-signin"   class="active" type="button">Sign In</button>
+        <button id="tab-register"              type="button">Create Account</button>
+      </div>
+
+      <form id="auth-form">
+        <div id="name-field" class="field" style="display:none">
+          <label for="auth-name">Name</label>
+          <input type="text" id="auth-name" placeholder="Jane Smith" autocomplete="name">
         </div>
-        <div>
-          <label for="title-input">Title</label>
-          <input type="text" id="title-input" placeholder="Page title" required>
+        <div class="field">
+          <label for="auth-email">Email</label>
+          <input type="email" id="auth-email" placeholder="jane@example.com" autocomplete="email" required>
         </div>
-        <div id="error-msg"></div>
-        <button type="submit">Add Bookmark</button>
+        <div class="field">
+          <label for="auth-password">Password</label>
+          <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" required>
+        </div>
+        <div class="error-msg" id="auth-error"></div>
+        <button type="submit" class="btn-primary" id="auth-submit">Sign In</button>
       </form>
     </div>
-
-    <div class="search-wrapper">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/>
-      </svg>
-      <input type="search" id="search-input" placeholder="Search bookmarks…">
-    </div>
-
-    <div class="section-header">
-      <h2>Saved</h2>
-      <span id="count"></span>
-    </div>
-    <ul id="bookmark-list"></ul>
-    <div id="empty-state" style="display:none">No bookmarks yet. Add one above.</div>
   </div>
 
-  <script>
-    const form = document.getElementById('bookmark-form');
-    const urlInput = document.getElementById('url-input');
-    const titleInput = document.getElementById('title-input');
-    const errorMsg = document.getElementById('error-msg');
-    const list = document.getElementById('bookmark-list');
-    const countEl = document.getElementById('count');
-    const emptyState = document.getElementById('empty-state');
-    const searchInput = document.getElementById('search-input');
+  <!-- ── App View ── -->
+  <div id="app-view">
+    <div class="app-header">
+      <h1>Bookmarks</h1>
+      <div class="user-info">
+        <span id="user-email"></span>
+        <button class="signout-btn" id="signout-btn">Sign Out</button>
+      </div>
+    </div>
 
-    function load() {
-      try { return JSON.parse(localStorage.getItem('bookmarks') || '[]'); }
-      catch { return []; }
+    <div class="container">
+      <div class="card">
+        <form id="add-form">
+          <div>
+            <label for="url-input">URL</label>
+            <input type="url" id="url-input" placeholder="https://example.com" required>
+          </div>
+          <div>
+            <label for="title-input">Title</label>
+            <input type="text" id="title-input" placeholder="Page title" required>
+          </div>
+          <div class="error-msg" id="add-error"></div>
+          <button type="submit">Add Bookmark</button>
+        </form>
+      </div>
+
+      <div class="search-wrapper">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/>
+        </svg>
+        <input type="search" id="search-input" placeholder="Search bookmarks…">
+      </div>
+
+      <div class="section-header">
+        <h2>Saved</h2>
+        <span id="count"></span>
+      </div>
+
+      <div id="loading" class="spinner"></div>
+      <ul id="bookmark-list" style="display:none"></ul>
+      <div id="empty-state" style="display:none"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    // ─────────────────────────────────────────────────────────────
+    // 1. Go to https://console.firebase.google.com
+    // 2. Create a project → Add a web app → copy the config below
+    // 3. Enable Authentication → Sign-in method → Email/Password
+    // 4. Enable Firestore Database (start in production or test mode)
+    // ─────────────────────────────────────────────────────────────
+    const firebaseConfig = {
+	apiKey: "AIzaSyA82joHwWkovbSQu0cCZ35iGIoweQ_w1uo",
+	authDomain: "prj-ckd1.firebaseapp.com",
+	projectId: "prj-ckd1",
+	storageBucket: "prj-ckd1.firebasestorage.app",
+	messagingSenderId: "994238832821",
+	appId: "1:994238832821:web:003c7af7a3968ba6565efc",
+	measurementId: "G-XBGJC7Q3GT",
+ };
+
+    import { initializeApp }
+      from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword,
+             signInWithEmailAndPassword, signOut, onAuthStateChanged }
+      from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+    import { getFirestore, collection, addDoc, deleteDoc,
+             doc, query, orderBy, onSnapshot }
+      from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getFirestore(app);
+
+    // ── DOM refs ──────────────────────────────────────────────────
+    const authView    = document.getElementById('auth-view');
+    const appView     = document.getElementById('app-view');
+    const authForm    = document.getElementById('auth-form');
+    const authEmailEl = document.getElementById('auth-email');
+    const authPassEl  = document.getElementById('auth-password');
+    const authError   = document.getElementById('auth-error');
+    const authSubmit  = document.getElementById('auth-submit');
+    const nameField   = document.getElementById('name-field');
+    const tabSignin   = document.getElementById('tab-signin');
+    const tabRegister = document.getElementById('tab-register');
+    const signoutBtn  = document.getElementById('signout-btn');
+    const userEmailEl = document.getElementById('user-email');
+    const addForm     = document.getElementById('add-form');
+    const urlInput    = document.getElementById('url-input');
+    const titleInput  = document.getElementById('title-input');
+    const addError    = document.getElementById('add-error');
+    const searchInput = document.getElementById('search-input');
+    const list        = document.getElementById('bookmark-list');
+    const countEl     = document.getElementById('count');
+    const emptyState  = document.getElementById('empty-state');
+    const loadingEl   = document.getElementById('loading');
+
+    // ── Auth tab toggle ───────────────────────────────────────────
+    let mode = 'signin';
+
+    function setMode(m) {
+      mode = m;
+      nameField.style.display = m === 'register' ? 'block' : 'none';
+      authSubmit.textContent  = m === 'register' ? 'Create Account' : 'Sign In';
+      tabSignin.classList.toggle('active', m === 'signin');
+      tabRegister.classList.toggle('active', m === 'register');
+      authError.textContent = '';
+      authForm.reset();
     }
 
-    function save(bookmarks) {
-      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    tabSignin.addEventListener('click',   () => setMode('signin'));
+    tabRegister.addEventListener('click', () => setMode('register'));
+
+    // ── Auth form ────────────────────────────────────────────────
+    const AUTH_ERRORS = {
+      'auth/invalid-email':        'Invalid email address.',
+      'auth/user-not-found':       'No account found with this email.',
+      'auth/wrong-password':       'Incorrect password.',
+      'auth/invalid-credential':   'Invalid email or password.',
+      'auth/email-already-in-use': 'An account with this email already exists.',
+      'auth/weak-password':        'Password must be at least 6 characters.',
+      'auth/too-many-requests':    'Too many attempts. Try again later.',
+    };
+
+    authForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      authError.textContent = '';
+      authSubmit.disabled = true;
+      try {
+        if (mode === 'register') {
+          await createUserWithEmailAndPassword(auth, authEmailEl.value.trim(), authPassEl.value);
+        } else {
+          await signInWithEmailAndPassword(auth, authEmailEl.value.trim(), authPassEl.value);
+        }
+      } catch (err) {
+        authError.textContent = AUTH_ERRORS[err.code] || 'Something went wrong. Please try again.';
+      } finally {
+        authSubmit.disabled = false;
+      }
+    });
+
+    signoutBtn.addEventListener('click', () => signOut(auth));
+
+    // ── Auth state → show/hide views ─────────────────────────────
+    let unsubscribeSnapshot = null;
+    let allBookmarks = [];
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        authView.style.display = 'none';
+        appView.style.display  = 'block';
+        userEmailEl.textContent = user.email;
+        startListening(user.uid);
+      } else {
+        appView.style.display  = 'none';
+        authView.style.display = 'flex';
+        stopListening();
+      }
+    });
+
+    // ── Firestore real-time listener ─────────────────────────────
+    function bookmarksCol(uid) {
+      return collection(db, 'users', uid, 'bookmarks');
+    }
+
+    function startListening(uid) {
+      loadingEl.style.display = 'flex';
+      list.style.display = 'none';
+
+      const q = query(bookmarksCol(uid), orderBy('added', 'desc'));
+      unsubscribeSnapshot = onSnapshot(q, snapshot => {
+        allBookmarks = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        loadingEl.style.display = 'none';
+        list.style.display = 'flex';
+        render(searchInput.value);
+      });
+    }
+
+    function stopListening() {
+      if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
+      allBookmarks = [];
+      render('');
+    }
+
+    // ── Add bookmark ─────────────────────────────────────────────
+    addForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      addError.textContent = '';
+      const url   = urlInput.value.trim();
+      const title = titleInput.value.trim();
+
+      try { new URL(url); } catch {
+        addError.textContent = 'Please enter a valid URL.';
+        urlInput.focus();
+        return;
+      }
+
+      if (allBookmarks.some(bm => bm.url === url)) {
+        addError.textContent = 'This URL is already bookmarked.';
+        urlInput.focus();
+        return;
+      }
+
+      try {
+        await addDoc(bookmarksCol(auth.currentUser.uid), { url, title, added: Date.now() });
+        addForm.reset();
+        urlInput.focus();
+      } catch {
+        addError.textContent = 'Failed to save. Try again.';
+      }
+    });
+
+    // ── Delete bookmark ──────────────────────────────────────────
+    list.addEventListener('click', async e => {
+      const btn = e.target.closest('.delete-btn');
+      if (!btn) return;
+      await deleteDoc(doc(db, 'users', auth.currentUser.uid, 'bookmarks', btn.dataset.id));
+    });
+
+    // ── Render + search ──────────────────────────────────────────
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function highlight(text, q) {
+      if (!q) return escHtml(text);
+      const idx = text.toLowerCase().indexOf(q.toLowerCase());
+      if (idx === -1) return escHtml(text);
+      return escHtml(text.slice(0, idx))
+        + `<mark>${escHtml(text.slice(idx, idx + q.length))}</mark>`
+        + escHtml(text.slice(idx + q.length));
     }
 
     function faviconUrl(url) {
-      try {
-        const { origin } = new URL(url);
-        return `${origin}/favicon.ico`;
-      } catch { return ''; }
-    }
-
-    function highlight(text, query) {
-      if (!query) return escHtml(text);
-      const idx = text.toLowerCase().indexOf(query.toLowerCase());
-      if (idx === -1) return escHtml(text);
-      return escHtml(text.slice(0, idx))
-        + `<mark>${escHtml(text.slice(idx, idx + query.length))}</mark>`
-        + escHtml(text.slice(idx + query.length));
+      try { return `${new URL(url).origin}/favicon.ico`; } catch { return ''; }
     }
 
     function render(query = '') {
-      const bookmarks = load();
       const q = query.trim();
       const filtered = q
-        ? bookmarks.filter(bm => bm.title.toLowerCase().includes(q.toLowerCase()))
-        : bookmarks;
+        ? allBookmarks.filter(bm => bm.title.toLowerCase().includes(q.toLowerCase()))
+        : allBookmarks;
 
       list.innerHTML = '';
 
-      if (bookmarks.length === 0) {
+      if (allBookmarks.length === 0) {
         emptyState.textContent = 'No bookmarks yet. Add one above.';
         emptyState.style.display = 'block';
         countEl.textContent = '';
       } else if (filtered.length === 0) {
         emptyState.textContent = 'No bookmarks match your search.';
         emptyState.style.display = 'block';
-        countEl.textContent = `0 of ${bookmarks.length}`;
+        countEl.textContent = `0 of ${allBookmarks.length}`;
       } else {
         emptyState.style.display = 'none';
         countEl.textContent = q
-          ? `${filtered.length} of ${bookmarks.length} bookmark${bookmarks.length > 1 ? 's' : ''}`
-          : `${bookmarks.length} bookmark${bookmarks.length > 1 ? 's' : ''}`;
+          ? `${filtered.length} of ${allBookmarks.length} bookmark${allBookmarks.length !== 1 ? 's' : ''}`
+          : `${allBookmarks.length} bookmark${allBookmarks.length !== 1 ? 's' : ''}`;
       }
 
       filtered.forEach(bm => {
-        const i = bookmarks.indexOf(bm);
         const li = document.createElement('li');
         li.innerHTML = `
-          <img class="favicon" src="${faviconUrl(bm.url)}" alt=""
-               onerror="this.style.visibility='hidden'">
+          <img class="favicon" src="${faviconUrl(bm.url)}" alt="" onerror="this.style.visibility='hidden'">
           <div class="bookmark-info">
-            <div class="bookmark-title"><a href="${bm.url}" target="_blank" rel="noopener">${highlight(bm.title, q)}</a></div>
+            <div class="bookmark-title">
+              <a href="${bm.url}" target="_blank" rel="noopener">${highlight(bm.title, q)}</a>
+            </div>
             <div class="bookmark-url">${escHtml(bm.url)}</div>
           </div>
-          <button class="delete-btn" data-index="${i}" title="Remove">&#x2715;</button>
+          <button class="delete-btn" data-id="${bm.id}" title="Remove">&#x2715;</button>
         `;
         list.appendChild(li);
       });
     }
 
-    function escHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      errorMsg.textContent = '';
-      const url = urlInput.value.trim();
-      const title = titleInput.value.trim();
-
-      try { new URL(url); } catch {
-        errorMsg.textContent = 'Please enter a valid URL.';
-        urlInput.focus();
-        return;
-      }
-
-      const bookmarks = load();
-      if (bookmarks.some(bm => bm.url === url)) {
-        errorMsg.textContent = 'This URL is already bookmarked.';
-        urlInput.focus();
-        return;
-      }
-
-      bookmarks.unshift({ url, title, added: Date.now() });
-      save(bookmarks);
-      render(searchInput.value);
-      form.reset();
-      urlInput.focus();
-    });
-
-    list.addEventListener('click', e => {
-      const btn = e.target.closest('.delete-btn');
-      if (!btn) return;
-      const i = parseInt(btn.dataset.index, 10);
-      const bookmarks = load();
-      bookmarks.splice(i, 1);
-      save(bookmarks);
-      render(searchInput.value);
-    });
-
     searchInput.addEventListener('input', () => render(searchInput.value));
-
-    render();
   </script>
 </body>
 </html>
