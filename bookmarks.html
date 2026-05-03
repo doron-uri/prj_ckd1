@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookmarks</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #1a1a2e;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 0.2rem;
+      display: block;
+    }
+
+    input[type="text"], input[type="url"] {
+      width: 100%;
+      padding: 0.6rem 0.85rem;
+      border: 1.5px solid #dde1e7;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: border-color 0.15s;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #4f6ef7;
+    }
+
+    button[type="submit"] {
+      padding: 0.65rem 1.25rem;
+      background: #4f6ef7;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      align-self: flex-end;
+      transition: background 0.15s;
+    }
+
+    button[type="submit"]:hover { background: #3a57e8; }
+
+    #error-msg {
+      color: #d64045;
+      font-size: 0.85rem;
+      min-height: 1.1rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-header h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    #count {
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    #bookmark-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    #bookmark-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: box-shadow 0.15s;
+    }
+
+    #bookmark-list li:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+    .favicon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      border-radius: 4px;
+      background: #eee;
+    }
+
+    .bookmark-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .bookmark-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .bookmark-title a {
+      color: #1a1a2e;
+      text-decoration: none;
+    }
+
+    .bookmark-title a:hover { color: #4f6ef7; }
+
+    .bookmark-url {
+      font-size: 0.78rem;
+      color: #999;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #ccc;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0.2rem;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+
+    .delete-btn:hover { color: #d64045; }
+
+    #empty-state {
+      text-align: center;
+      color: #bbb;
+      padding: 2rem 0;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bookmarks</h1>
+
+    <div class="card">
+      <form id="bookmark-form">
+        <div>
+          <label for="url-input">URL</label>
+          <input type="url" id="url-input" placeholder="https://example.com" required>
+        </div>
+        <div>
+          <label for="title-input">Title</label>
+          <input type="text" id="title-input" placeholder="Page title" required>
+        </div>
+        <div id="error-msg"></div>
+        <button type="submit">Add Bookmark</button>
+      </form>
+    </div>
+
+    <div class="section-header">
+      <h2>Saved</h2>
+      <span id="count"></span>
+    </div>
+    <ul id="bookmark-list"></ul>
+    <div id="empty-state" style="display:none">No bookmarks yet. Add one above.</div>
+  </div>
+
+  <script>
+    const form = document.getElementById('bookmark-form');
+    const urlInput = document.getElementById('url-input');
+    const titleInput = document.getElementById('title-input');
+    const errorMsg = document.getElementById('error-msg');
+    const list = document.getElementById('bookmark-list');
+    const countEl = document.getElementById('count');
+    const emptyState = document.getElementById('empty-state');
+
+    function load() {
+      try { return JSON.parse(localStorage.getItem('bookmarks') || '[]'); }
+      catch { return []; }
+    }
+
+    function save(bookmarks) {
+      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    }
+
+    function faviconUrl(url) {
+      try {
+        const { origin } = new URL(url);
+        return `${origin}/favicon.ico`;
+      } catch { return ''; }
+    }
+
+    function render() {
+      const bookmarks = load();
+      list.innerHTML = '';
+      countEl.textContent = bookmarks.length ? `${bookmarks.length} bookmark${bookmarks.length > 1 ? 's' : ''}` : '';
+      emptyState.style.display = bookmarks.length ? 'none' : 'block';
+
+      bookmarks.forEach((bm, i) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <img class="favicon" src="${faviconUrl(bm.url)}" alt=""
+               onerror="this.style.visibility='hidden'">
+          <div class="bookmark-info">
+            <div class="bookmark-title"><a href="${bm.url}" target="_blank" rel="noopener">${escHtml(bm.title)}</a></div>
+            <div class="bookmark-url">${escHtml(bm.url)}</div>
+          </div>
+          <button class="delete-btn" data-index="${i}" title="Remove">&#x2715;</button>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      errorMsg.textContent = '';
+      const url = urlInput.value.trim();
+      const title = titleInput.value.trim();
+
+      try { new URL(url); } catch {
+        errorMsg.textContent = 'Please enter a valid URL.';
+        urlInput.focus();
+        return;
+      }
+
+      const bookmarks = load();
+      if (bookmarks.some(bm => bm.url === url)) {
+        errorMsg.textContent = 'This URL is already bookmarked.';
+        urlInput.focus();
+        return;
+      }
+
+      bookmarks.unshift({ url, title, added: Date.now() });
+      save(bookmarks);
+      render();
+      form.reset();
+      urlInput.focus();
+    });
+
+    list.addEventListener('click', e => {
+      const btn = e.target.closest('.delete-btn');
+      if (!btn) return;
+      const i = parseInt(btn.dataset.index, 10);
+      const bookmarks = load();
+      bookmarks.splice(i, 1);
+      save(bookmarks);
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

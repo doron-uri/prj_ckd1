@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 2rem;
+    }
+
+    .field {
+      margin-bottom: 1.2rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.03em;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      border: 1.5px solid #dde1e7;
+      border-radius: 9px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: #1a1a2e;
+      background: #fafafa;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+      resize: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #4f6ef7;
+      background: #fff;
+    }
+
+    input.invalid, textarea.invalid {
+      border-color: #d64045;
+    }
+
+    textarea { height: 130px; }
+
+    .field-error {
+      font-size: 0.78rem;
+      color: #d64045;
+      margin-top: 0.3rem;
+      min-height: 1rem;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 0.75rem;
+      background: #4f6ef7;
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    button[type="submit"]:hover  { background: #3a57e8; }
+    button[type="submit"]:active { transform: scale(0.98); }
+
+    /* Success state */
+    .success-banner {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      background: #eafaf1;
+      border: 1.5px solid #52c97a;
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.92rem;
+      color: #1a6636;
+    }
+
+    .success-banner .icon {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .success-banner.show { display: flex; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Contact Us</h1>
+    <p class="subtitle">We'll get back to you as soon as possible.</p>
+
+    <div class="success-banner" id="success-banner">
+      <span class="icon">&#10003;</span>
+      <span>Message sent! We'll be in touch soon.</span>
+    </div>
+
+    <form id="contact-form" novalidate>
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Jane Smith" autocomplete="name">
+        <div class="field-error" id="name-error"></div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="jane@example.com" autocomplete="email">
+        <div class="field-error" id="email-error"></div>
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" placeholder="How can we help you?"></textarea>
+        <div class="field-error" id="message-error"></div>
+      </div>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('contact-form');
+    const banner = document.getElementById('success-banner');
+
+    const fields = {
+      name:    { el: document.getElementById('name'),    err: document.getElementById('name-error') },
+      email:   { el: document.getElementById('email'),   err: document.getElementById('email-error') },
+      message: { el: document.getElementById('message'), err: document.getElementById('message-error') },
+    };
+
+    function validateEmail(v) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    }
+
+    function clearError(key) {
+      fields[key].el.classList.remove('invalid');
+      fields[key].err.textContent = '';
+    }
+
+    Object.keys(fields).forEach(key => {
+      fields[key].el.addEventListener('input', () => clearError(key));
+    });
+
+    function validate() {
+      let ok = true;
+
+      if (!fields.name.el.value.trim()) {
+        fields.name.err.textContent = 'Name is required.';
+        fields.name.el.classList.add('invalid');
+        ok = false;
+      }
+
+      const emailVal = fields.email.el.value.trim();
+      if (!emailVal) {
+        fields.email.err.textContent = 'Email is required.';
+        fields.email.el.classList.add('invalid');
+        ok = false;
+      } else if (!validateEmail(emailVal)) {
+        fields.email.err.textContent = 'Please enter a valid email address.';
+        fields.email.el.classList.add('invalid');
+        ok = false;
+      }
+
+      if (!fields.message.el.value.trim()) {
+        fields.message.err.textContent = 'Message is required.';
+        fields.message.el.classList.add('invalid');
+        ok = false;
+      }
+
+      return ok;
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      banner.classList.remove('show');
+
+      if (!validate()) return;
+
+      // No server — just show success and reset
+      banner.classList.add('show');
+      form.reset();
+      banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  </script>
+</body>
+</html>
